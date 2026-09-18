@@ -1,0 +1,28 @@
+# Segredos e credenciais
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+credentials*
+secrets*
+*token*
+*senha*
+*password*
+
+# Anotações pessoais
+notas/
+anotacoes/
+anotações/
+rascunho*
+*.local.md
+CLAUDE.local.md
+
+# Configuração local do Claude Code
+.claude/settings.local.json
+
+# Arquivos do sistema
+Thumbs.db
+desktop.ini
+.DS_Store
