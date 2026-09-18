@@ -43,13 +43,13 @@ Definição do radar no formato CLARO. O time de agentes lê este arquivo antes 
 
 ## A — Ação (o que o time faz todo dia)
 
-Os agentes estão em `.claude/agents/` e rodam nesta ordem:
+Os agentes estão em `.claude/agents/`. A skill `radar` (`.claude/skills/radar/SKILL.md`) coordena o time, que roda nesta ordem e, com PODE PUBLICAR, grava o dia no GitHub com um commit:
 
 1. **Pesquisador** (`pesquisador`): varre as fontes principais e o resto da internet atrás de promoções, lançamentos e novidades do escopo, começando por fibra/FTTH. Grava de 5 a 10 itens brutos em `fontes/AAAA-MM-DD.md`.
 2. **Rastreador de preços** (`rastreador-precos`), ao mesmo tempo que o pesquisador: para cada produto de `precos/produtos-marcados.md`, busca o preço atual e acrescenta linhas em `precos/historico.csv`. Compara com o histórico e grava o resumo das mudanças em `precos/AAAA-MM-DD.md`.
 3. **Verificador** (`verificador`): reabre cada link e confere se a página diz o que o item afirma (CONFERE, NÃO CONFERE ou NÃO ABRIU). Anota os sinais de confiança (CNPJ visível, homologação Anatel, garantia, estoque e prazo) e classifica cada item como **CONFIÁVEL** ou **BAIXA** (critérios em Resultado). Grava em `verificacao/AAAA-MM-DD.md`.
-4. **Auxiliar Telecom** (`auxiliartelecom`): com os itens que conferiram e os preços, escreve uma seção curta e descontraída, **marcada como opinião**, com a dica de preço baixo, as promoções à vista e o que ele faria na compra. Grava a seção em `auxiliar/AAAA-MM-DD.md` e a entrega em texto puro em `auxiliar/AAAA-MM-DD.txt`.
-5. **Redator** (`redator`): usa só os itens que conferiram. Ordena fibra antes do resto, e promoções e lançamentos antes do resto. Escreve os três arquivos do dia em `diario/`, com a seção do Auxiliar Telecom no fim do briefing, e gera o `index.html` a partir do `modelo-index.html`.
+4. **Redator** (`redator`): usa só os itens que conferiram. Ordena fibra antes do resto, e promoções e lançamentos antes do resto. Escreve os três arquivos do dia em `diario/` e gera o `index.html` a partir do `modelo-index.html`.
+5. **Auxiliar Telecom** (`auxiliartelecom`), o agente do dono: com os itens que conferiram e os preços, escreve uma seção curta e descontraída, **marcada como opinião**, com a dica de preço baixo, as promoções à vista e o que ele faria na compra. Grava a seção em `auxiliar/AAAA-MM-DD.md` e a entrega em texto puro em `auxiliar/AAAA-MM-DD.txt`. A skill `radar` coloca a seção no fim do briefing e no `index.html`.
 6. **Guarda** (`guarda`): lê tudo o que vai ser publicado e termina com **PODE PUBLICAR** ou **NÃO PUBLIQUE**. Qualquer achado bloqueia a publicação.
 
 ---

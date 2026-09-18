@@ -21,15 +21,15 @@ A definição completa está em **`RADAR.md`**, que deve ser lido antes de cada 
 
 ## O time
 
-Os agentes ficam em `.claude/agents/` e rodam nesta ordem:
+Os agentes ficam em `.claude/agents/`. Quem coordena é a skill `radar` (`.claude/skills/radar/SKILL.md`): para rodar, use `/radar` ou peça "rode o radar". A ordem é:
 
 1. `pesquisador` e `rastreador-precos`, ao mesmo tempo;
 2. `verificador`;
-3. `auxiliartelecom` (o Auxiliar Telecom, o único agente que opina);
-4. `redator`;
-5. `guarda`. Só publique se ele terminar com **PODE PUBLICAR**.
+3. `redator`;
+4. `auxiliartelecom` (o Auxiliar Telecom, agente do dono e o único que opina). A skill põe a seção dele no fim do briefing;
+5. `guarda`. Só há commit se ele terminar com **PODE PUBLICAR**.
 
-Passe a data (e a hora, para o redator) no pedido a cada agente, para todos usarem o mesmo dia.
+A skill passa a data (e a hora, para o redator) no pedido a cada agente, para todos usarem o mesmo dia.
 
 ## Estrutura de pastas
 
@@ -39,7 +39,8 @@ meu-radar/
 ├── CLAUDE.md                    esta memória
 ├── modelo-index.html            modelo da página; o redator não mexe no <footer>
 ├── index.html                   página do dia (gerada pelo redator)
-├── .claude/agents/              o time: pesquisador, rastreador-precos, verificador, auxiliartelecom, redator, guarda
+├── .claude/agents/              o time: pesquisador, rastreador-precos, verificador, redator, auxiliartelecom, guarda
+├── .claude/skills/radar/        a skill que coordena o time (/radar)
 ├── auxiliar/
 │   ├── AAAA-MM-DD.md            seção de opinião do Auxiliar Telecom (vai para o briefing)
 │   └── AAAA-MM-DD.txt           a mesma seção em texto puro (a entrega)
