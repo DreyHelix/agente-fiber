@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITULO}} · {{DATA}}</title>
+<!-- Modelo básico da página do radar. O redator troca só os marcadores entre chaves duplas e nunca mexe no <footer>. -->
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --fg: #1d1d1b;
+    --muted: #6b6a66;
+    --line: #e3e1db;
+    --link: #0b5cad;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161615;
+      --fg: #ecebe7;
+      --muted: #9d9b95;
+      --line: #2e2d2b;
+      --link: #7db4ff;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main, footer { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  h1 { font-size: 1.5rem; line-height: 1.25; margin: 32px 0 4px; }
+  .data { color: var(--muted); margin: 0 0 24px; }
+  h2 { font-size: 1.1rem; margin: 28px 0 8px; padding-top: 20px; border-top: 1px solid var(--line); }
+  a { color: var(--link); overflow-wrap: anywhere; }
+  li { margin-bottom: 12px; }
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    padding-bottom: 32px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>{{TITULO}}</h1>
+  <p class="data">Briefing de {{DATA}}</p>
+
+  <article>
+{{BRIEFING}}
+  </article>
+
+  <section>
+    <h2>Dias anteriores</h2>
+{{ANTERIORES}}
+  </section>
+</main>
+<footer>
+  <p>Radar gerado todo dia por um time de agentes de IA. Toda afirmação tem link para a fonte original.</p>
+  <p>Preços e estoque mudam: confira na loja antes de comprar. Nada aqui é recomendação de compra.</p>
+</footer>
+</body>
+</html>

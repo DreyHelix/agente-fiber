@@ -2,7 +2,7 @@
 
 ## O que é este projeto
 
-Radar diário: um time de agentes pesquisa a internet todo dia sobre **produtos de telecom para provedores, com foco em fibra óptica/FTTH no Brasil**, e entrega um briefing curto e um arquivo de detalhes.
+Radar diário: um time de agentes pesquisa a internet todo dia sobre **produtos de telecom para provedores, com foco em fibra óptica/FTTH no Brasil**, e entrega um briefing curto, um arquivo de detalhes, uma aba de baixa confiabilidade e uma página `index.html`.
 
 A definição completa está em **`RADAR.md`**, que deve ser lido antes de cada execução. Se este arquivo e o `RADAR.md` divergirem, vale o `RADAR.md`.
 
@@ -16,8 +16,20 @@ A definição completa está em **`RADAR.md`**, que deve ser lido antes de cada 
 - **Baixa confiabilidade:** itens de fonte fraca (loja sem CNPJ, preço suspeito, homologação não encontrada, lançamento sem confirmação do fabricante, página sem data) não entram no briefing. Vão para uma aba separada, cada um com o motivo. Os critérios completos estão no `RADAR.md`.
 - **Topo do briefing, nesta ordem:** melhor promoção do dia, produtos marcados que mudaram de preço, o que exige ação hoje.
 - **Quantidade:** até 10 itens por dia.
-- **Tom:** direto no briefing. Os detalhes ficam em um arquivo separado com a mesma numeração.
+- **Tom:** direto no briefing: título, duas ou três linhas e link por item. Os detalhes ficam em um arquivo separado com a mesma numeração.
 - **Nunca:** opinião como fato; preço sem link ou sem data; rede social ou WhatsApp sem fonte; falar de pessoas; recomendar loja sem mostrar a origem da informação.
+
+## O time
+
+Os agentes ficam em `.claude/agents/` e rodam nesta ordem:
+
+1. `pesquisador` e `rastreador-precos`, ao mesmo tempo;
+2. `verificador`;
+3. `auxiliartelecom` (o Auxiliar Telecom, o único agente que opina);
+4. `redator`;
+5. `guarda`. Só publique se ele terminar com **PODE PUBLICAR**.
+
+Passe a data (e a hora, para o redator) no pedido a cada agente, para todos usarem o mesmo dia.
 
 ## Estrutura de pastas
 
@@ -25,16 +37,27 @@ A definição completa está em **`RADAR.md`**, que deve ser lido antes de cada 
 meu-radar/
 ├── RADAR.md                     definição do radar (CLARO)
 ├── CLAUDE.md                    esta memória
-├── briefings/
+├── modelo-index.html            modelo da página; o redator não mexe no <footer>
+├── index.html                   página do dia (gerada pelo redator)
+├── .claude/agents/              o time: pesquisador, rastreador-precos, verificador, auxiliartelecom, redator, guarda
+├── auxiliar/
+│   ├── AAAA-MM-DD.md            seção de opinião do Auxiliar Telecom (vai para o briefing)
+│   └── AAAA-MM-DD.txt           a mesma seção em texto puro (a entrega)
+├── fontes/
+│   └── AAAA-MM-DD.md            anotações brutas do pesquisador
+├── verificacao/
+│   └── AAAA-MM-DD.md            conferência e confiança de cada item
+├── diario/
 │   ├── AAAA-MM-DD.md                  briefing do dia (uma página, só itens confiáveis)
 │   ├── AAAA-MM-DD-detalhes.md         detalhes do dia (mesma numeração)
 │   └── AAAA-MM-DD-baixa-confianca.md  aba de baixa confiabilidade (cada item com o motivo)
 └── precos/
     ├── produtos-marcados.md     lista de produtos marcados pelo usuário
-    └── historico.csv            histórico de preços dos produtos marcados
+    ├── historico.csv            histórico de preços dos produtos marcados
+    └── AAAA-MM-DD.md            resumo das mudanças de preço do dia
 ```
 
-Se `briefings/` ou `precos/` não existirem, crie as pastas. Se `produtos-marcados.md` não existir, crie o arquivo vazio, com o cabeçalho explicando como marcar.
+Cada agente cria a pasta dele se ela não existir. Se `produtos-marcados.md` não existir, o rastreador cria o arquivo com um cabeçalho explicando como marcar.
 
 ## Como o usuário marca um produto
 
@@ -54,7 +77,7 @@ O usuário também pode pedir no chat ("marque o produto X"), e o Claude acresce
 **Arquivos e datas**
 - Datas no formato `AAAA-MM-DD`, fuso de Brasília.
 - Arquivos em Markdown, codificação UTF-8.
-- Nunca apagar nem reescrever o briefing de outro dia. Se o radar rodar duas vezes no mesmo dia, substitua apenas os arquivos daquele dia.
+- Nunca apagar nem reescrever os arquivos de outro dia em `fontes/`, `verificacao/`, `diario/` ou `precos/`. Se o radar rodar duas vezes no mesmo dia, substitua apenas os arquivos daquele dia.
 
 **Histórico de preços (`precos/historico.csv`)**
 - Cabeçalho: `data,produto,loja,url,preco_brl,condicao,frete,observacao`.
