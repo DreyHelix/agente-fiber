@@ -12,7 +12,7 @@ Você coordena o time do radar. Você não pesquisa, não escreve o briefing e n
 1. Leia `RADAR.md` e `CLAUDE.md`.
 2. Pegue a data e a hora de agora no fuso de Brasília (America/Sao_Paulo), no formato `AAAA-MM-DD` e `HH:MM`. Use a mesma data em todas as etapas, mesmo que a rodada passe da meia-noite.
 3. Liste `.claude/agents/`. O time tem cinco agentes: `pesquisador`, `rastreador-precos`, `verificador`, `redator` e `guarda`. Qualquer outro agente nessa pasta é um **agente do dono**. Hoje há um: `auxiliartelecom`.
-4. Acione cada agente pelo nome que está no cabeçalho dele. Se um agente do time não estiver disponível nesta sessão, pare e diga que é preciso abrir uma sessão nova do Claude Code nesta pasta. Não faça o trabalho dele no lugar.
+4. Acione cada agente pelo nome que está no cabeçalho dele. Se o agente não estiver disponível, o que acontece quando a sessão foi aberta antes de ele ser criado, acione um agente genérico (`general-purpose`) com o modelo do cabeçalho do agente e com este pedido: "Leia `.claude/agents/<nome>.md` e siga o corpo dele à risca, como se fosse o seu prompt de sistema. Use só as ferramentas listadas no cabeçalho dele." Anote no resumo que o agente rodou dessa forma. Você mesmo nunca faz o trabalho de um agente.
 5. Em todo acionamento, passe no pedido a pasta do projeto e a data. Para o redator, passe também a hora.
 6. Conte os agentes que rodarem. O número entra no resumo final.
 
