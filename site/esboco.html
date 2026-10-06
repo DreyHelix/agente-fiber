@@ -111,7 +111,7 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 .seg button[aria-selected=true]{background:var(--grad);color:#0d0d0d}
 
 /* ---------- planos ---------- */
-.planos{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:28px 0 20px}
+.planos{display:grid;gap:16px;grid-template-columns:repeat(4,minmax(0,1fr));margin:28px 0 20px}
 .plano{position:relative;display:flex;flex-direction:column;gap:14px;padding:26px 24px 24px;border-radius:var(--raio);background:linear-gradient(180deg,var(--preto-2),#222);border:1px solid var(--linha);transition:transform .25s,border-color .25s,box-shadow .25s}
 .plano:hover{transform:translateY(-6px);border-color:rgba(0,242,81,.55);box-shadow:0 24px 50px -30px var(--verde)}
 .plano--prem{border-color:rgba(0,242,81,.32);background:linear-gradient(180deg,#26322b,#222)}
@@ -124,10 +124,16 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 .plano__preco sup{margin-top:.4rem;font-size:1.3rem}
 .plano__preco small{align-self:flex-end;margin:0 0 .45rem 6px;font:500 .88rem var(--f-txt);color:var(--txt-2)}
 .plano>.rev{position:absolute;top:14px;right:14px;margin:0}
-.plano ul{display:grid;gap:9px;margin:4px 0 10px;padding-top:16px;border-top:1px dashed var(--linha-forte)}
-.plano li{display:flex;align-items:center;gap:10px;font-size:.93rem}
-.plano li i{width:10px;height:10px;border-radius:50%;flex:none}
-.t-std i{background:var(--azul)}.t-adv i{background:var(--verde)}.t-prem i{background:linear-gradient(135deg,var(--creme),var(--verde))}
+.plano__apps{display:grid;gap:12px;margin:2px 0 10px;padding-top:16px;border-top:1px dashed var(--linha-forte)}
+.plano__apps p{font-size:.93rem;color:var(--txt-2)}
+.plano__apps b{color:var(--txt)}
+.apps{display:flex;flex-wrap:wrap;gap:6px}
+.app{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:11px;overflow:hidden}
+.app--logo{background:var(--c)}
+.app--logo svg{width:24px;height:24px;fill:#fff}
+.app--larga{width:72px}
+.app--larga svg{width:58px;height:auto}
+.app--prov{border:1.5px dashed var(--linha-forte);background:var(--preto-3);color:var(--txt-2);font:700 .8rem/1 var(--f-txt);letter-spacing:-.02em}
 .plano .btn{margin-top:auto}
 .planos.troca .plano{animation:entra .5s both;animation-delay:calc(var(--i) * 70ms)}
 @keyframes entra{from{opacity:0;transform:translateY(18px) scale(.97)}}
@@ -225,6 +231,9 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 .gate__fechar{margin-top:16px;font-size:.88rem;color:var(--txt-2);text-decoration:underline;text-underline-offset:3px}
 
 /* ---------- responsivo ---------- */
+@media (max-width:1000px){
+  .planos{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media (max-width:900px){
   .burger{display:grid}
   .topo .btn{display:none}
@@ -334,10 +343,9 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 
       <div class="sva rv">
         <div>
-          <h3>Apps inclusos (SVA)</h3>
-          <p class="sub">Cada plano libera uma quantidade de apps por categoria. Veja o catálogo.</p>
+          <h3>Catálogo de apps</h3>
+          <p class="sub">Cada plano libera uma quantidade de apps para você escolher. Os planos maiores abrem mais opções.</p>
         </div>
-        <div class="seg seg--cheio" id="segSva" role="tablist" aria-label="Categoria de apps"></div>
         <ul class="chips" id="chipsSva"></ul>
       </div>
     </div>
@@ -423,7 +431,7 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 </footer>
 
 <a class="fab" data-zap href="#" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg class="ico ico--cheio"><use href="#i-zap"/></svg></a>
-<button class="legenda" id="legenda" type="button"><span class="rev">confirmar</span>= dado que preciso que você confira (toque para fechar)</button>
+<button class="legenda" id="legenda" type="button"><span class="rev">confirmar</span>dado a conferir · ícone tracejado = logo oficial a enviar (toque para fechar)</button>
 
 <!-- BANNER DE CIDADE -->
 <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTit" hidden>
@@ -449,7 +457,28 @@ const SVA = {
   advanced: ['O Jornalista','Kaspersky','Kiddle Pass','DocWay','CurtaOn','Sky+ com Globo','HotGo','Deezer'],
   premium:  ['Zen Wellness','Smart Content','Kaspersky Plus','Queima Diária','Max','Disney+']
 };
-const NOME_SVA = { standard:'Standard', advanced:'Advanced', premium:'Premium' };
+const ICONE = {
+  kaspersky:{ nome:'Kaspersky', cor:'#006D5C', vb:'-0.5 9.2 25 5.6', larga:true, d:'M10.812 12.014c0 .91-.555 1.34-1.25 1.34h-.424v-.546h.392c.419 0 .698-.226.698-.794 0-.563-.264-.844-.71-.844-.43 0-.738.265-.738.833v2.282H8.2v-3.589h.58v.309h.082a.94.94 0 0 1 .776-.375c.64 0 1.174.463 1.174 1.384zm-3.804-.237l-.386-.039c-.304-.027-.464-.11-.464-.287 0-.21.204-.33.497-.33.303 0 .496.143.512.347h.557c-.022-.518-.424-.838-1.064-.838-.645 0-1.08.342-1.08.843 0 .42.264.69.865.75l.392.039c.237.022.397.072.397.298 0 .204-.15.352-.54.352-.361 0-.539-.163-.601-.382H5.49c.06.5.481.89 1.203.89.678 0 1.12-.359 1.12-.888 0-.469-.31-.706-.805-.755zm6.047.753c-.091.208-.308.366-.616.366-.425 0-.739-.276-.739-.871 0-.568.292-.882.744-.882.403 0 .634.242.657.606h-1.043v.42h1.61v-.277c0-.766-.507-1.262-1.23-1.262-.672 0-1.317.457-1.317 1.395 0 .937.645 1.395 1.318 1.395.615 0 1.054-.38 1.19-.89zm-9.127-1.9c-.634 0-1.108.33-1.163.838h.623c.044-.188.215-.325.54-.325.42 0 .557.22.557.49v.91c-.237.27-.513.397-.788.397-.287 0-.486-.138-.486-.386 0-.237.155-.386.452-.386h.464v-.419h-.48c-.662 0-1.031.331-1.031.838 0 .474.358.833.948.833.331 0 .623-.133.838-.292h.083v.226h.579v-1.776c0-.656-.447-.948-1.136-.948zM0 13.354h.579v-3.64H0zm2.432-2.658h-.706l-.844 1.108v.348l.866 1.202h.717L1.45 11.975zm20.928 0l-.474 1.053c-.116.254-.226.502-.259.667h-.083c-.033-.165-.148-.408-.264-.661l-.474-1.059h-.64l1.114 2.387-.552 1.202h.618L24 10.696zm-2.322 0h-.706l-.843 1.108v.348l.865 1.202h.717l-1.015-1.379zm-3.625 1.08l-.386-.038c-.303-.027-.463-.11-.463-.287 0-.21.204-.33.496-.33.303 0 .496.143.513.347h.557c-.022-.518-.425-.838-1.064-.838-.645 0-1.081.342-1.081.843 0 .42.265.69.866.75l.391.039c.237.022.397.072.397.298 0 .204-.149.352-.54.352-.36 0-.538-.163-.6-.382h-.603c.06.5.481.89 1.203.89.678 0 1.12-.359 1.12-.888 0-.469-.31-.706-.806-.755zm1.193 1.578h.58v-3.64h-.58zm-3.817-2.35h-.083v-.308h-.579v2.658h.579v-1.39c0-.474.219-.75.65-.75h.367v-.584h-.212c-.4 0-.57.15-.722.375z' },
+  deezer:   { nome:'Deezer',    cor:'#A238FF', vb:'0 0 24 24', d:'M.693 10.024c.381 0 .693-1.256.693-2.807 0-1.55-.312-2.807-.693-2.807C.312 4.41 0 5.666 0 7.217s.312 2.808.693 2.808ZM21.038 1.56c-.364 0-.684.805-.91 2.096C19.765 1.446 19.184 0 18.526 0c-.78 0-1.464 2.036-1.784 5-.312-2.158-.788-3.536-1.325-3.536-.745 0-1.386 2.704-1.62 6.472-.442-1.932-1.083-3.145-1.793-3.145s-1.35 1.213-1.793 3.145c-.242-3.76-.874-6.463-1.628-6.463-.537 0-1.013 1.378-1.325 3.535C6.938 2.036 6.262 0 5.474 0c-.658 0-1.247 1.447-1.602 3.665-.217-1.291-.546-2.105-.91-2.105-.675 0-1.221 2.807-1.221 6.272 0 3.466.546 6.273 1.221 6.273.277 0 .537-.476.736-1.273.32 2.928.996 4.938 1.776 4.938.606 0 1.143-1.204 1.507-3.11.251 3.622.875 6.195 1.602 6.195.46 0 .875-1.023 1.187-2.677C10.142 21.6 11 24 12.004 24c1.005 0 1.863-2.4 2.235-5.822.312 1.654.727 2.677 1.186 2.677.728 0 1.352-2.573 1.603-6.195.364 1.906.9 3.11 1.507 3.11.78 0 1.455-2.01 1.775-4.938.208.797.46 1.273.737 1.273.675 0 1.22-2.807 1.22-6.273-.008-3.457-.553-6.272-1.23-6.272ZM23.307 10.024c.381 0 .693-1.256.693-2.807 0-1.55-.312-2.807-.693-2.807-.381 0-.693 1.256-.693 2.807s.312 2.808.693 2.808Z' },
+  disney:   { nome:'Disney+',        mono:'D+' },
+  max:      { nome:'Max',            mono:'Max' },
+  skyglobo: { nome:'Sky+ com Globo', mono:'S+' },
+  looke:    { nome:'Looke',          mono:'Lk' },
+  ubook:    { nome:'Ubook',          mono:'Ub' },
+  playkids: { nome:'Playkids+',      mono:'P+' }
+};
+const ICONES_PLANO = [
+  ['kaspersky','looke','ubook','playkids'],
+  ['deezer','kaspersky','looke','skyglobo'],
+  ['disney','max','deezer','kaspersky']
+];
+const nivelPlano = p => p.prem ? 2 : p.adv ? 1 : 0;
+const iconeApp = k => {
+  const a = ICONE[k];
+  return a.d
+    ? `<li class="app app--logo${a.larga ? ' app--larga' : ''}" style="--c:${a.cor}" title="${a.nome}"><svg viewBox="${a.vb}" role="img" aria-label="${a.nome}"><path d="${a.d}"/></svg></li>`
+    : `<li class="app app--prov" title="${a.nome} (logo a enviar)" aria-label="${a.nome}">${a.mono}</li>`;
+};
 const P = (mega, preco, std, adv, prem, rev) => ({ mega, preco, std, adv, prem, rev });
 const CIDADES = {
   'ribeirao-pires': {
@@ -508,7 +537,6 @@ function statusLoja(c) {
 
 /* ===== estado ===== */
 let atual = null;       // id da cidade escolhida
-let svaAba = 'standard';
 
 const cidadeOuPadrao = () => CIDADES[atual] || null;
 const msgGeral = c => `Olá! Vim pelo site da FiberXpress e gostaria de falar sobre os planos em ${c.nome}.`;
@@ -534,26 +562,24 @@ function renderPlanos(animar) {
   if (!c) { grade.innerHTML = ''; return; }
   grade.innerHTML = c.planos.map((p, i) => {
     const [r, cent] = p.preco.toFixed(2).split('.');
-    const itens = [
-      p.std  ? `<li class="t-std"><i></i>${p.std} app Standard</li>` : '',
-      p.adv  ? `<li class="t-adv"><i></i>${p.adv} app Advanced</li>` : '',
-      p.prem ? `<li class="t-prem"><i></i>${p.prem} ${p.prem > 1 ? 'apps' : 'app'} Premium</li>` : ''
-    ].join('');
+    const total = p.std + p.adv + p.prem;
     const msg = `Olá! Tenho interesse no plano de ${p.mega} Mega (${brl(p.preco)}/mês) em ${c.nome}.`;
     return `<article class="plano${p.prem ? ' plano--prem' : ''}" style="--i:${i}">
       ${rev(p.rev)}
       <p class="plano__vel"><b>${p.mega}</b><span>Mega</span></p>
       <p class="plano__preco"><span class="rs">R$</span><b>${r}</b><sup>,${cent}</sup><small>/mês</small></p>
-      <ul>${itens}</ul>
+      <div class="plano__apps">
+        <ul class="apps" aria-label="Exemplos de apps do plano">${ICONES_PLANO[nivelPlano(p)].map(iconeApp).join('')}</ul>
+        <p><b>${total} ${total > 1 ? 'apps' : 'app'}</b> à sua escolha</p>
+      </div>
       <a class="btn btn--verde" href="${zapLink(c, msg)}" target="_blank" rel="noopener">${ico('zap', true)}Quero este plano</a>
     </article>`;
   }).join('');
   if (animar) { grade.classList.remove('troca'); void grade.offsetWidth; grade.classList.add('troca'); }
 }
 function renderSva() {
-  $('#segSva').innerHTML = Object.keys(SVA).map(k =>
-    `<button type="button" role="tab" data-sva="${k}" aria-selected="${k === svaAba}">${NOME_SVA[k]}</button>`).join('');
-  $('#chipsSva').innerHTML = SVA[svaAba].map((n, i) => `<li style="--i:${i}">${n}</li>`).join('');
+  const todos = [...new Set(Object.values(SVA).flat())];
+  $('#chipsSva').innerHTML = todos.map((n, i) => `<li style="--i:${i}">${n}</li>`).join('');
 }
 function renderCidades() {
   $('#gradeCidades').innerHTML = ORDEM.map(id => {
@@ -653,8 +679,6 @@ document.addEventListener('click', e => {
     if (!gate.hidden) fecharGate();
     return;
   }
-  const sva = e.target.closest('[data-sva]');
-  if (sva) { svaAba = sva.dataset.sva; renderSva(); return; }
   if (e.target.closest('[data-abrir-gate]') || e.target.closest('#chipCidade')) { abrirGate(); return; }
   const zap = e.target.closest('a[data-zap]');
   if (zap && !atual) { e.preventDefault(); abrirGate(); }

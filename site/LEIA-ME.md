@@ -23,4 +23,5 @@ Os arquivos originais dos logos estão em `assets/img/` (`logo-colorido.png`, `l
 3. **Ribeirão Pires:** horário lido como "todos os dias 09:00–17:50, quinta até 20:00".
 4. **Cobertura:** lista de bairros/ruas (ou mapa) de cada cidade.
 5. **Contratos:** os PDFs (contrato de prestação, plano de serviço por cidade, termos dos SVA, política de privacidade).
-6. "1 Standard / 1 Advanced / 2 Premium" foi lido como a quantidade de apps que o cliente escolhe em cada categoria.
+6. Os quadrados dos planos mostram só "N apps à sua escolha" (a soma de Standard + Advanced + Premium, lida como apps que o cliente escolhe). Os nomes das categorias não aparecem no site.
+7. **Logos dos apps:** só Kaspersky e Deezer estão com a marca real. Os outros (Disney+, Max, Sky+ com Globo, Looke, Ubook, Playkids+) estão como tile tracejado com as iniciais. Falta o logo oficial (SVG ou PNG) de cada um, do kit de marca do fornecedor dos SVA, e a confirmação de que a empresa pode usá-los no site.
