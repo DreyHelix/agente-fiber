@@ -208,7 +208,7 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 .sva{margin-top:48px;padding:clamp(20px,4vw,36px);border-radius:var(--raio);background:var(--preto-2);border:1px solid var(--linha);display:grid;gap:18px}
 .sva h3{font-size:1.7rem}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.galeria{position:relative;height:clamp(340px,50vw,420px);margin:2px 0}
+.galeria{position:relative;min-height:200px;margin:2px 0}
 .galeria::before{content:"";position:absolute;inset:-4% 6%;border-radius:50%;background:radial-gradient(closest-side,var(--gal-glow),transparent 72%);pointer-events:none}
 .gal-item{position:absolute;z-index:1;width:var(--s,64px);height:var(--s,64px);translate:var(--px,0px) var(--py,0px);transition:translate .45s cubic-bezier(.2,.8,.2,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .gal-item:hover,.gal-item.mostra{z-index:6}
@@ -696,33 +696,40 @@ function renderSva() {
   arranjarGaleria();
 }
 
-/* galeria: posições espalhadas sem sobrepor, movimento suave e leve fuga do mouse */
+/* galeria: bloco compacto e centralizado, sem sobreposição, com a altura ajustada ao conteúdo */
 function arranjarGaleria() {
   const box = $('#galeria'); if (!box) return;
-  const itens = $$('.gal-item', box), n = itens.length, w = box.clientWidth, h = box.clientHeight;
-  if (!n || !w || !h) return;
+  const itens = $$('.gal-item', box), n = itens.length, w = box.clientWidth;
+  if (!n || !w) return;
+  const s = w >= 700 ? 61 : w >= 480 ? 54 : w >= 380 ? 48 : w >= 270 ? 41 : 36;      // ícones ~20% menores
+  const gap = Math.round(s * .34), passo = s + gap, pad = 26;
+  const folga = Math.ceil(gap * .18) + 2, maxCols = Math.max(2, Math.floor((w - 2 * folga + gap) / passo));
+  let linhas = 1;
+  while (linhas < n && (Math.ceil(n / linhas) > maxCols || Math.ceil(n / linhas) / linhas > 3.2)) linhas++;
+  const base = Math.floor(n / linhas), extra = n % linhas;
+  const altura = linhas * passo - gap + pad * 2;
+  if (box.style.height !== altura + 'px') box.style.height = altura + 'px';
   let seed = 11; const rnd = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
   const ordem = itens.map((_, i) => i);
   for (let i = n - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [ordem[i], ordem[j]] = [ordem[j], ordem[i]]; }
-  const cols = Math.max(2, Math.round(Math.sqrt(n * w / h))), rows = Math.ceil(n / cols), cw = w / cols, ch = h / rows;
-  const s = Math.max(44, Math.min(76, Math.floor(Math.min(cw, ch) * .74)));
-  const folga = Math.max(0, Math.min(cw, ch) - s), amp = Math.max(4, Math.min(12, folga * .32));
-  ordem.forEach((idx, pos) => {
-    const el = itens[idx], c = pos % cols, r = Math.floor(pos / cols);
-    const naUltima = r === rows - 1 ? n - cols * (rows - 1) : cols, deslocUltima = r === rows - 1 ? (cols - naUltima) * cw / 2 : 0;
-    let x = c * cw + (cw - s) / 2 + deslocUltima + (rnd() * 2 - 1) * (cw - s) * .26;
-    let y = r * ch + (ch - s) / 2 + (rnd() * 2 - 1) * (ch - s) * .26;
-    x = Math.max(0, Math.min(w - s, x)); y = Math.max(0, Math.min(h - s, y));
-    el.style.left = x + 'px'; el.style.top = y + 'px';
-    el.style.setProperty('--s', s + 'px');
-    el.style.setProperty('--dx', ((rnd() * 2 - 1) * amp).toFixed(1) + 'px');
-    el.style.setProperty('--dy', ((rnd() * 2 - 1) * amp).toFixed(1) + 'px');
-    el.style.setProperty('--rot', (2 + rnd() * 4).toFixed(1) + 'deg');
-    el.style.setProperty('--dur', (5 + rnd() * 4).toFixed(1) + 's');
-    el.style.setProperty('--atraso', (-rnd() * 8).toFixed(1) + 's');
-    el.toggleAttribute('data-v', y < 46); if (y < 46) el.setAttribute('data-v', 'baixo');
-    el.removeAttribute('data-h'); if (x < 56) el.setAttribute('data-h', 'esq'); else if (x > w - s - 56) el.setAttribute('data-h', 'dir');
-  });
+  const jit = gap * .18, amp = Math.min(6, gap * .28);
+  let pos = 0;
+  for (let r = 0; r < linhas; r++) {
+    const qtd = base + (r < extra ? 1 : 0), larg = qtd * passo - gap, x0 = (w - larg) / 2;
+    for (let c = 0; c < qtd; c++, pos++) {
+      const el = itens[ordem[pos]];
+      const x = x0 + c * passo + (rnd() * 2 - 1) * jit, y = pad + r * passo + (rnd() * 2 - 1) * jit;
+      el.style.left = x.toFixed(1) + 'px'; el.style.top = y.toFixed(1) + 'px';
+      el.style.setProperty('--s', s + 'px');
+      el.style.setProperty('--dx', ((rnd() * 2 - 1) * amp).toFixed(1) + 'px');
+      el.style.setProperty('--dy', ((rnd() * 2 - 1) * amp).toFixed(1) + 'px');
+      el.style.setProperty('--rot', (2 + rnd() * 3).toFixed(1) + 'deg');
+      el.style.setProperty('--dur', (5 + rnd() * 4).toFixed(1) + 's');
+      el.style.setProperty('--atraso', (-rnd() * 8).toFixed(1) + 's');
+      if (y < 46) el.setAttribute('data-v', 'baixo'); else el.removeAttribute('data-v');
+      el.removeAttribute('data-h'); if (x < 56) el.setAttribute('data-h', 'esq'); else if (x > w - s - 56) el.setAttribute('data-h', 'dir');
+    }
+  }
 }
 {
   const box = $('#galeria');
