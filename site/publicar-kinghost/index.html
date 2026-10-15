@@ -244,6 +244,7 @@ h2{font-size:clamp(2.1rem,5.2vw,3.6rem);line-height:1}
 .app--logo svg{width:26px;height:26px;fill:#fff}
 .plano--selo{border-color:var(--plano-hover-borda)}
 .plano__selo{position:absolute;top:-13px;left:50%;translate:-50% 0;z-index:1;padding:.42em 1em;border-radius:99px;background:var(--grad);color:var(--btn-txt);font:700 .72rem/1.2 var(--f-txt);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;box-shadow:0 6px 16px -6px rgba(0,0,0,.5)}
+.plano__faixa{position:absolute;top:16px;right:16px;padding:.32em .7em;border-radius:6px;background:var(--ac1-txt);color:var(--btn-txt);font:700 .68rem/1.2 var(--f-txt);letter-spacing:.1em;text-transform:uppercase}
 .plano__extras{display:grid;gap:8px;margin-top:2px;list-style:none;font-size:.88rem;color:var(--txt-2)}
 .plano__extras li{display:flex;align-items:center;gap:9px}
 .plano__extras .ico{color:var(--ac1-txt);width:1.15em;height:1.15em}
@@ -708,7 +709,7 @@ const CIDADES = {
     end:'Francisco Monteiro, nº 1350 — Santana, Ribeirão Pires/SP',
     horas:[[540,1070],[540,1070],[540,1070],[540,1070],[540,1200],[540,1070],[540,1070]],
     horasTxt:[['Seg, ter, qua, sex, sáb e dom','09:00 – 17:50'],['Quinta-feira','09:00 – 20:00']],
-    planos:[P(100,99.90,1,0,0),P(400,119.90,1,1,0),P(500,129.90,1,1,1),P(600,164.90,1,1,2)], rev:{}
+    planos:[P(100,99.90,1,0,0,null,{apps:['skyplus','fluid']}),P(400,119.90,1,1,0,null,{wifi:'5',selo:'Melhor custo-benefício',apps:['skyplus','deezer','kiddlepass']}),P(500,129.90,1,1,1,null,{wifi:'5',apps:['hbomax','disney','kiddlepass','deezer']}),P(600,164.90,1,1,2,null,{wifi:'6',faixa:'Premium',selo:'Plano completo pra você',apps:['hbomax','disney','kaspersky','deezer']})], rev:{}
   },
   'ilha-comprida': {
     nome:'Ilha Comprida', uf:'SP', zap:'5513997177263', zapFmt:'(13) 99717-7263', tel:'1338427002', telFmt:'(13) 3842-7002',
@@ -788,7 +789,7 @@ function renderPlanos(animar) {
     const total = p.std + p.adv + p.prem;
     const msg = `Olá! Tenho interesse no plano de ${nomeMega(p)} (${brl(p.preco)}/mês) em ${c.nome}.`;
     return `<article class="plano${p.prem ? ' plano--prem' : ''}${p.selo ? ' plano--selo' : ''}" style="--i:${i}">
-      ${p.selo ? `<span class="plano__selo">${p.selo}</span>` : ''}${rev(p.rev)}
+      ${p.selo ? `<span class="plano__selo">${p.selo}</span>` : ''}${p.faixa ? `<span class="plano__faixa">${p.faixa}</span>` : ''}${rev(p.rev)}
       <p class="plano__vel"><b>${p.mega}</b><span>Mega${p.mais ? '+' : ''}</span></p>
       <p class="plano__preco"><span class="rs">R$</span><b>${r}</b><sup>,${cent}</sup><small>/mês</small></p>
       <div class="plano__apps">

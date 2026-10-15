@@ -25,6 +25,7 @@ Esta pasta é do site da empresa. Não tem relação com o radar da raiz do repo
 ## Decisões já tomadas (rodadas de perguntas de 15/10/2026)
 
 - **Iguape:** WhatsApp (13) 99672-6219, endereço Largo Durvalino Vieira, nº 83, telefone fixo igual ao de Ilha Comprida, (13) 3842-7002.
+- **Planos de Ribeirão Pires (conferidos com o folheto do dono):** 100 Mega, 400 Mega (Wi-Fi 5, selo "Melhor custo-benefício"), 500 Mega (Wi-Fi 5) e 600 Mega **Premium** (Wi-Fi 6, selo "Plano completo pra você"). O 100 Mega não cita Wi-Fi no folheto.
 - **Planos de Ilha Comprida e Iguape (conferidos com o folheto do dono):** 100 Mega (Wi-Fi), 200 Mega (Wi-Fi 5, selo "Melhor custo-benefício"), 500 Mega (Wi-Fi 6) e **500 Mega+** (Wi-Fi 6, R$ 249,90). Os ícones de exemplo de cada cartão seguem os do folheto, só os que temos em boa qualidade (os outros estão na pendência 10). Telefones do folheto: (13) 99717-7263 (Ilha Comprida), (13) 99672-6219 (Iguape) e (13) 3842-7002 (fixo).
 - **Planos:** a contagem de apps (1, 2, 3 e 4) foi confirmada. Os dois planos de 500 Mega de Ilha Comprida e Iguape têm a mesma velocidade e mudam só nos apps. "Ubook Go grátis" vale em todos, sem prazo.
 - **Cartões dos planos:** mostram "Roteador Wi-Fi em comodato" e "Envio de até 80% do download". Fidelidade e taxa de instalação ficaram de fora, por decisão do dono.
@@ -47,7 +48,7 @@ Esta pasta é do site da empresa. Não tem relação com o radar da raiz do repo
 8. **Teste em aparelho real:** os testes automáticos rodaram em Chromium (Chrome/Edge). Falta abrir em iPhone (Safari) e em Android. Os horários de "Aberto agora" usam o fuso de Brasília.
 9. **Depois de publicar:** cadastrar o site no Google Search Console, enviar o `sitemap.xml` e criar o Google Meu Negócio das 3 unidades. [Provável] Para provedor local, o Meu Negócio costuma trazer mais contatos que o próprio site.
 10. **Ícones que faltam** (aparecem no folheto, mas não temos o arquivo em boa qualidade, então ficaram fora dos cartões): Looke, Playlist e ExitLag. O Kaspersky aparece com a marca em texto, e o ícone oficial (um "K" em quadrado) viria do fornecedor. ExitLag também não está na lista de apps (SVA) do arquivo da empresa: confirmar que é um app do catálogo.
-11. **Ribeirão Pires:** não recebi o folheto. Os cartões usam ícones de exemplo genéricos e "Roteador Wi-Fi em comodato" sem o número do Wi-Fi (5 ou 6). Enviar o folheto e eu alinho.
+11. **Ribeirão Pires — dúvida sobre os apps:** o folheto destaca um app fixo em dois planos (400 Mega: Sky+ Light; 600 Mega Premium: HBO Max) e não mostra apps nos outros. O site diz "N apps à sua escolha" (1, 2, 3 e 4, confirmado pelo dono) e mostra o app do folheto como primeiro exemplo. Confirmar se o Sky+ Light e o HBO Max vêm **fixos** nesses planos (aí o texto do cartão muda) ou se são só o destaque do folheto.
 12. **"Instalação gratuita para planos a partir de 200 Megas":** está no folheto, mas por decisão do dono a taxa de instalação não aparece nos cartões. Se quiser, entra como uma faixa abaixo dos planos (e a frase "consulte a viabilidade técnica" também).
 
 ## Notas técnicas
